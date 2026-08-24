@@ -1,0 +1,7 @@
+alfabeto,n,candidatos_dict,tiempo_dict_ms,encontrada_dict
+a1,4,500,0.851167,0
+a2,4,500,0.660042,0
+a1,5,500,0.655583,0
+a2,5,500,0.647791,0
+control,9,7,0.015084,1
+a1,6,500,1.33299,0

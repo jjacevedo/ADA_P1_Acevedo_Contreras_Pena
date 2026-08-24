@@ -1,0 +1,6 @@
+ada_p1_fb
+ada_p1
+*.o
+.DS_Store
+.vscode/
+results/_borrar_bak/

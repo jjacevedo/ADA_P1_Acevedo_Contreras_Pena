@@ -1,0 +1,13 @@
+alfabeto,n,tipo_caso,candidatos_evaluados,tiempo_ms,encontrada
+a1,3,peor_caso,17576,28.7086,0
+a1,4,peor_caso,456976,574.363,0
+a1,5,peor_caso,11881376,14562.3,0
+a2,3,peor_caso,46656,59.1286,0
+a2,4,peor_caso,1679616,2030.56,0
+a2,5,peor_caso,60466176,74659.9,0
+a1,4,instancia_equipo,323830,392.558,1
+a2,4,instancia_equipo,1163464,1432.48,1
+a1,5,instancia_equipo,4074193,5051.2,1
+a2,5,instancia_equipo,1963446,2451.82,1
+a1,6,peor_caso,308915776,683381,0
+a1,6,instancia_equipo,105773218,243174,1
