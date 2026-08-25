@@ -62,34 +62,48 @@ run_team_instance a2 5 d6809ac7b6f13c1d90add5ef7fb3f2b8599b112809c50ed19251d9d68
 echo "Listo. Resultados en $CSV"
 
 # --- Comparación fuerza bruta vs. ataque por diccionario ---
-# Corre el diccionario contra las mismas 5 instancias del equipo (n=6 aparte).
-# Ninguna debería estar en diccionario.txt (se generan por LCG, no son
-# palabras "comunes"), así que se agrega un caso de control que SÍ está en la
-# lista, para mostrar el contraste completo (éxito vs. no éxito).
+# Corre FB y diccionario contra el MISMO hash y deja ambos en la misma fila
+# (Sección 8.1: mismo conjunto de hashes objetivo para las dos estrategias).
+# Ninguna de las 5 instancias del equipo debería estar en diccionario.txt (se
+# generan por LCG, no son palabras "comunes"), así que se agrega un caso de
+# control que SÍ está en la lista, para mostrar el contraste completo.
 DICT_CSV=results/comparacion_fb_diccionario.csv
-echo "alfabeto,n,candidatos_dict,tiempo_dict_ms,encontrada_dict" > "$DICT_CSV"
+echo "alfabeto,n,candidatos_fb,tiempo_fb_ms,encontrada_fb,candidatos_dict,tiempo_dict_ms,encontrada_dict" > "$DICT_CSV"
 
-run_dict() {
+run_comparison() {
     local alf=$1
     local n=$2
     local hash=$3
-    echo ">> diccionario: $alf n=$n"
-    local out
-    out=$($BIN dict --hash "$hash")
-    local cand=$(echo "$out" | grep candidatos_evaluados | cut -d= -f2)
-    local t=$(echo "$out" | grep tiempo_ms | cut -d= -f2)
-    local found=$(echo "$out" | grep encontrada | cut -d= -f2)
-    echo "$alf,$n,$cand,$t,$found" >> "$DICT_CSV"
+    echo ">> comparación: $alf n=$n"
+    local fb_out fb_cand fb_t fb_found
+    fb_out=$($BIN search --alphabet "$alf" --length "$n" --hash "$hash")
+    fb_cand=$(echo "$fb_out" | grep candidatos_evaluados | cut -d= -f2)
+    fb_t=$(echo "$fb_out" | grep tiempo_ms | cut -d= -f2)
+    fb_found=$(echo "$fb_out" | grep encontrada | cut -d= -f2)
+    local dict_out dict_cand dict_t dict_found
+    dict_out=$($BIN dict --hash "$hash")
+    dict_cand=$(echo "$dict_out" | grep candidatos_evaluados | cut -d= -f2)
+    dict_t=$(echo "$dict_out" | grep tiempo_ms | cut -d= -f2)
+    dict_found=$(echo "$dict_out" | grep encontrada | cut -d= -f2)
+    echo "$alf,$n,$fb_cand,$fb_t,$fb_found,$dict_cand,$dict_t,$dict_found" >> "$DICT_CSV"
 }
 
-run_dict a1 4 d477fe9fdf5725d7ff091744b9662732735b32165ba8978fa116f176b5a25dfc
-run_dict a2 4 dc319045ebdcd8bd3af2e6459de2975233a05e371cd5e7ec3f8b88a5a43473a0
-run_dict a1 5 c16a61c136f28aa6f95c87747ab2f4a13ab7106babf6f62db7873200960c8bae
-run_dict a2 5 d6809ac7b6f13c1d90add5ef7fb3f2b8599b112809c50ed19251d9d68c14517f
-# a1 n=6 aparte
+run_comparison a1 4 d477fe9fdf5725d7ff091744b9662732735b32165ba8978fa116f176b5a25dfc
+run_comparison a2 4 dc319045ebdcd8bd3af2e6459de2975233a05e371cd5e7ec3f8b88a5a43473a0
+run_comparison a1 5 c16a61c136f28aa6f95c87747ab2f4a13ab7106babf6f62db7873200960c8bae
+run_comparison a2 5 d6809ac7b6f13c1d90add5ef7fb3f2b8599b112809c50ed19251d9d68c14517f
+# a1 n=6 aparte (FB tarda ~4 min): fila agregada a mano con los valores de
+# tiempos_fb.csv y una corrida de dict suelta, igual que antes.
 
 # Caso de control: contraseña que SÍ está en resources/diccionario.txt.
+# No tiene comparación FB real (n=9 sobre A1 es intratable: 26^9), es solo
+# para mostrar que el diccionario sí encuentra lo que contiene.
+echo ">> comparación: control n=9 (solo diccionario)"
 CONTROL_HASH=$($BIN hash acceso123)
-run_dict control 9 "$CONTROL_HASH"
+control_out=$($BIN dict --hash "$CONTROL_HASH")
+control_cand=$(echo "$control_out" | grep candidatos_evaluados | cut -d= -f2)
+control_t=$(echo "$control_out" | grep tiempo_ms | cut -d= -f2)
+control_found=$(echo "$control_out" | grep encontrada | cut -d= -f2)
+echo "control,9,n/a,n/a,n/a,$control_cand,$control_t,$control_found" >> "$DICT_CSV"
 
 echo "Listo. Comparación en $DICT_CSV"

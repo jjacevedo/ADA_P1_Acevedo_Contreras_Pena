@@ -1,7 +1,7 @@
-alfabeto,n,candidatos_dict,tiempo_dict_ms,encontrada_dict
-a1,4,500,0.851167,0
-a2,4,500,0.660042,0
-a1,5,500,0.655583,0
-a2,5,500,0.647791,0
-control,9,7,0.015084,1
-a1,6,500,1.33299,0
+alfabeto,n,candidatos_fb,tiempo_fb_ms,encontrada_fb,candidatos_dict,tiempo_dict_ms,encontrada_dict
+a1,4,323830,389.968,1,500,0.993291,0
+a2,4,1163464,1418.29,1,500,0.687333,0
+a1,5,4074193,4992.67,1,500,0.659625,0
+a2,5,1963446,2451.02,1,500,0.660167,0
+control,9,n/a,n/a,n/a,7,0.015666,1
+a1,6,105773218,243174,1,500,1.33299,0
