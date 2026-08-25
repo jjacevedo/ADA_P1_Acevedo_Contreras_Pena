@@ -143,7 +143,9 @@ int cmd_gen_instances(int argc, char** argv) {
     for (auto& a : normalizados) std::cout << a;
     std::cout << "\nSemilla del equipo = " << seed << "\n\n";
 
-    // Longitudes 4,4,5,5,6 alternando A1,A2,A1,A2,A1.
+    // Longitudes 4,4,5,5,6 alternando A1,A2,A1,A2,A1 — orden confirmado por el
+    // profesor en el foro del curso (hilo "Duda sobre el orden de las
+    // instancias A1/A2"), coincide con lo que ya usábamos por defecto.
     std::vector<int> lengths = {4, 4, 5, 5, 6};
     std::vector<std::string> alph_names = {"a1", "a2", "a1", "a2", "a1"};
 
@@ -156,8 +158,6 @@ int cmd_gen_instances(int argc, char** argv) {
         std::string h = fb::sha256_hex(pwd);
         std::cout << lengths[i] << " | " << alph_names[i] << " | " << pwd << " | " << h << "\n";
     }
-    std::cout << "\n[RECORDATORIO] Verifique el orden A1/A2 alternado contra el "
-                 "enunciado de InteractivaVirtual antes de usar estas instancias.\n";
     return 0;
 }
 

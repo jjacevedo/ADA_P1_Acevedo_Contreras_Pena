@@ -37,7 +37,7 @@ pueden renombrar.
 
 ## Instancias del equipo (Acevedo, Contreras, Peña)
 
-Semilla = 2124. Generadas con `gen-instances` (orden A1/A2 asumido, ver conversación):
+Semilla = 2124. Generadas con `gen-instances` (orden A1, A2, A1, A2, A1 — confirmado oficialmente por el profesor en el foro del curso):
 
 | n | alfabeto | contraseña | hash |
 |---|----------|-----------|------|
