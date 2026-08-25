@@ -54,8 +54,21 @@ las instancias reales para A1 n=3,4,5 y A2 n=3,4,5, más la comparación contra
 el diccionario, y escribe:
 
 - `results/tiempos_fb.csv` — tiempo, candidatos evaluados, peor caso vs. instancia real.
-- `results/comparacion_fb_diccionario.csv` — fuerza bruta vs. diccionario.
-- `results/tiempo_vs_n_fb.png` — gráfica tiempo vs. n (peor caso, ambos alfabetos, con la curva teórica |Σ|ⁿ superpuesta).
+- `results/comparacion_fb_diccionario.csv` — fuerza bruta vs. diccionario, mismo hash por fila.
+
+La gráfica `results/tiempo_vs_n_fb.png` (tiempo vs. n, peor caso, ambos
+alfabetos, con la curva teórica |Σ|ⁿ superpuesta) se genera aparte con:
+
+```bash
+python3 plot_tiempos_fb.py         # lee results/tiempos_fb.csv, requiere matplotlib
+python3 plot_fb_vs_diccionario.py  # lee results/comparacion_fb_diccionario.csv
+```
+
+`results/fb_vs_diccionario.png` (barras FB vs. diccionario por instancia) es
+opcional — el enunciado no lo exige para la Sección 8.1, solo tabla y
+discusión — pero ayuda a la sustentación. `results/informe_experimentacion_resultados.md`
+tiene las tablas y el análisis ya redactados, listos para pegar en
+`report/Informe.pdf`.
 
 **A1 con n=6 NO está en el script** porque agotar el espacio (26⁶ ≈ 309
 millones de candidatos) tarda ~11.4 minutos — se corrió aparte y sus filas ya
@@ -70,28 +83,42 @@ están agregadas a mano en los CSV. Si necesitan reproducirlo:
 
 | Alfabeto | n | Candidatos | Tiempo |
 |---|---|---|---|
-| A1 | 3 | 17,576 | 38–49 ms |
-| A1 | 4 | 456,976 | ~975 ms |
-| A1 | 5 | 11,881,376 | ~26 s |
+| A1 | 3 | 17,576 | 38.2 ms |
+| A1 | 4 | 456,976 | 556.8 ms |
+| A1 | 5 | 11,881,376 | ~14.8 s |
 | A1 | 6 | 308,915,776 | **683.4 s (~11.4 min)** |
-| A2 | 3 | 46,656 | ~100 ms |
-| A2 | 4 | 1,679,616 | ~3.7 s |
-| A2 | 5 | 60,466,176 | ~133 s |
+| A2 | 3 | 46,656 | 56.8 ms |
+| A2 | 4 | 1,679,616 | ~2.1 s |
+| A2 | 5 | 60,466,176 | ~75.0 s |
 
-Factor de crecimiento medido al subir n en 1: A1 ≈ ×26.3 (teórico ×26), A2 ≈
-×36.3 (teórico ×36) — coincide casi exactamente con la cota |Σ|ⁿ.
+Candidatos evaluados = exactamente |Σ|ⁿ en los 7 casos (26,036 ✓ y 36ⁿ ✓ sin
+falla) — confirma que la enumeración no omite ni repite candidatos.
+
+El **tiempo**, en cambio, no crece parejo: A1 pasa de ×14.6 (n=3→4) a ×26.5
+(n=4→5) a ×46.3 (n=5→6), contra un teórico de ×26 fijo. A2 sí se mantiene
+cerca (×36.8 y ×35.9, teórico ×36). La explicación: n=3,4,5 de ambos
+alfabetos se midieron juntos en una corrida corta (segundos); ahí el
+crecimiento converge al ×26/×36 teórico a medida que el costo fijo de
+arranque del programa deja de pesar frente al de hashear candidatos. La
+corrida de A1 n=6 (~11.4 min) es aparte, medida en otra sesión — un proceso
+sostenido de esa duración en un portátil es más susceptible a *thermal
+throttling* del CPU, lo que explica el salto a ×46.3: no es que el
+algoritmo cambie de complejidad, es ruido de medición en una corrida larga
+bajo condiciones distintas a las demás.
 
 ### Resultados (fuerza bruta vs. diccionario, Sección 8.1)
 
 Ninguna de las 5 instancias reales del equipo está en `diccionario.txt` (0/5
-éxito) — son generadas por LCG, no palabras "comunes" — pero el diccionario
-responde en ~1–2 ms en cada caso, mientras que la fuerza bruta tardó entre
-689 ms (n=4) y 243 s (n=6) en encontrar la misma contraseña. Como caso de
-control, `acceso123` (que sí está en la lista) se encuentra en 0.05 ms
-evaluando solo 7 candidatos. Esto ilustra la discusión que pide el
-enunciado: el diccionario es mucho más rápido, pero **no es exhaustivo** —
+éxito) — son generadas por LCG, no palabras "comunes". Fuerza bruta sí las
+encuentra las 5 (100%), pero tardando de 393.7 ms (`slaz`, n=4) a 243.2 s
+(`ixmbgr`, n=6), mientras el diccionario completo (500 candidatos) responde
+en menos de 1.5 ms siempre — sea que encuentre o no. Como caso de control,
+`acceso123` (que sí está en la lista) se encuentra en 0.016 ms evaluando
+solo 7 candidatos. Esto ilustra la discusión que pide el enunciado: el
+diccionario es órdenes de magnitud más rápido, pero **no es exhaustivo** —
 si la contraseña real no está en la lista, nunca se encuentra, sin importar
-que sí exista dentro de Σⁿ.
+que sí exista dentro de Σⁿ; la fuerza bruta es más lenta pero garantiza
+encontrarla si el hash pertenece al espacio explorado.
 
 ## Pendiente
 
