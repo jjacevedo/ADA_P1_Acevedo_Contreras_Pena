@@ -1,8 +1,8 @@
 # Módulo FB — Fuerza Bruta
 
 Avance del Módulo FB de la Práctica 1 (Análisis y Diseño de Algoritmos).
-Este README cubre solo este módulo; cuando se una con el Módulo BT del
-compañero, se combina en un único README de todo el repositorio (Sección 11).
+Este README cubre solo este módulo; se combina con el del compañero de BT
+cuando se junten los dos módulos en el repositorio final.
 
 ## Compilar
 
@@ -17,7 +17,7 @@ g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
 ./ada_p1_fb hash abc12                                  # calcula un hash SHA-256
 ./ada_p1_fb search --alphabet a1 --length 4 --hash <hex> # fuerza bruta pura
 ./ada_p1_fb dict --hash <hex>                            # ataque por diccionario
-./ada_p1_fb gen-instances --apellidos "acevedo,contreras,peña"  # instancias del equipo (Sección 9.1)
+./ada_p1_fb gen-instances --apellidos "acevedo,contreras,peña"  # instancias del equipo
 ```
 
 ## Estructura (dentro de `src/`)
@@ -28,16 +28,11 @@ g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
 - `fb_dictionary.hpp` — ataque por diccionario.
 - `fb_seed.hpp` — semilla del equipo + generador de instancias.
 - `main.cpp` — CLI que expone los comandos de arriba.
-- `third_party/picosha2.h` — librería de hash SHA-256 (dominio público/MIT).
-
-Las carpetas de nivel superior (`src/`, `tests/`, `resources/`, `results/`,
-`report/`) y `src/third_party/` tienen esos nombres exactos porque los exige
-la Sección 11 del enunciado (es un criterio evaluado de la rúbrica) — no se
-pueden renombrar.
+- `third_party/picosha2.h` — librería de hash SHA-256.
 
 ## Instancias del equipo (Acevedo, Contreras, Peña)
 
-Semilla = 2124. Generadas con `gen-instances` (orden A1, A2, A1, A2, A1 — confirmado oficialmente por el profesor en el foro del curso):
+Semilla = 2124. Generadas con `gen-instances`, orden A1, A2, A1, A2, A1:
 
 | n | alfabeto | contraseña | hash |
 |---|----------|-----------|------|
@@ -47,39 +42,30 @@ Semilla = 2124. Generadas con `gen-instances` (orden A1, A2, A1, A2, A1 — conf
 | 5 | A2 | bgdaf | d6809ac7b6f13c1d90add5ef7fb3f2b8599b112809c50ed19251d9d68c14517f |
 | 6 | A1 | ixmbgr | 70bebf0bcde96437c8891522b46033087e12f7bfad3421cd1f068b3ee820b8c1 |
 
-## Experimentación (Secciones 8 y 8.1)
+## Experimentación
 
-`run_experiments.sh` corre automáticamente el peor caso (hash inexistente) y
-las instancias reales para A1 n=3,4,5 y A2 n=3,4,5, más la comparación contra
-el diccionario, y escribe:
+`run_experiments.sh` corre el peor caso y las instancias reales para A1/A2
+n=3,4,5, más la comparación contra el diccionario, y escribe:
 
-- `results/tiempos_fb.csv` — tiempo, candidatos evaluados, peor caso vs. instancia real.
-- `results/comparacion_fb_diccionario.csv` — fuerza bruta vs. diccionario, mismo hash por fila.
+- `results/tiempos_fb.csv`
+- `results/comparacion_fb_diccionario.csv`
 
-La gráfica `results/tiempo_vs_n_fb.png` (tiempo vs. n, peor caso, ambos
-alfabetos, con la curva teórica |Σ|ⁿ superpuesta) se genera aparte con:
+Las gráficas se regeneran con:
 
 ```bash
-python3 plot_tiempos_fb.py         # lee results/tiempos_fb.csv, requiere matplotlib
-python3 plot_fb_vs_diccionario.py  # lee results/comparacion_fb_diccionario.csv
+python3 plot_tiempos_fb.py
+python3 plot_fb_vs_diccionario.py
 ```
 
-`results/fb_vs_diccionario.png` (barras FB vs. diccionario por instancia) es
-opcional — el enunciado no lo exige para la Sección 8.1, solo tabla y
-discusión — pero ayuda a la sustentación. `results/informe_experimentacion_resultados.md`
-tiene las tablas y el análisis ya redactados, listos para pegar en
-`report/Informe.pdf`.
-
-**A1 con n=6 NO está en el script** porque agotar el espacio (26⁶ ≈ 309
-millones de candidatos) tarda ~11.4 minutos — se corrió aparte y sus filas ya
-están agregadas a mano en los CSV. Si necesitan reproducirlo:
+A1 n=6 no está en el script (tarda ~11.4 min) — se corrió aparte y sus filas
+ya están agregadas a mano en los CSV. Comandos para reproducirlo:
 
 ```bash
 ./ada_p1_fb search --alphabet a1 --length 6 --hash 0000000000000000000000000000000000000000000000000000000000000000  # peor caso, ~11.4 min
 ./ada_p1_fb search --alphabet a1 --length 6 --hash 70bebf0bcde96437c8891522b46033087e12f7bfad3421cd1f068b3ee820b8c1  # instancia real, ~4 min
 ```
 
-### Resultados (peor caso, las 7 configuraciones de la Sección 9.1)
+### Resultados (peor caso)
 
 | Alfabeto | n | Candidatos | Tiempo |
 |---|---|---|---|
@@ -91,34 +77,16 @@ están agregadas a mano en los CSV. Si necesitan reproducirlo:
 | A2 | 4 | 1,679,616 | ~2.1 s |
 | A2 | 5 | 60,466,176 | ~75.0 s |
 
-Candidatos evaluados = exactamente |Σ|ⁿ en los 7 casos (26,036 ✓ y 36ⁿ ✓ sin
-falla) — confirma que la enumeración no omite ni repite candidatos.
+Candidatos evaluados = exactamente |Σ|ⁿ en los 7 casos. Factor de
+crecimiento medido al subir n en 1: A1 entre ×14.6 y ×46.3 según el rango
+(teórico ×26), A2 ≈ ×36 (teórico ×36).
 
-El **tiempo**, en cambio, no crece parejo: A1 pasa de ×14.6 (n=3→4) a ×26.5
-(n=4→5) a ×46.3 (n=5→6), contra un teórico de ×26 fijo. A2 sí se mantiene
-cerca (×36.8 y ×35.9, teórico ×36). La explicación: n=3,4,5 de ambos
-alfabetos se midieron juntos en una corrida corta (segundos); ahí el
-crecimiento converge al ×26/×36 teórico a medida que el costo fijo de
-arranque del programa deja de pesar frente al de hashear candidatos. La
-corrida de A1 n=6 (~11.4 min) es aparte, medida en otra sesión — un proceso
-sostenido de esa duración en un portátil es más susceptible a *thermal
-throttling* del CPU, lo que explica el salto a ×46.3: no es que el
-algoritmo cambie de complejidad, es ruido de medición en una corrida larga
-bajo condiciones distintas a las demás.
+### Resultados (fuerza bruta vs. diccionario)
 
-### Resultados (fuerza bruta vs. diccionario, Sección 8.1)
-
-Ninguna de las 5 instancias reales del equipo está en `diccionario.txt` (0/5
-éxito) — son generadas por LCG, no palabras "comunes". Fuerza bruta sí las
-encuentra las 5 (100%), pero tardando de 393.7 ms (`slaz`, n=4) a 243.2 s
-(`ixmbgr`, n=6), mientras el diccionario completo (500 candidatos) responde
-en menos de 1.5 ms siempre — sea que encuentre o no. Como caso de control,
-`acceso123` (que sí está en la lista) se encuentra en 0.016 ms evaluando
-solo 7 candidatos. Esto ilustra la discusión que pide el enunciado: el
-diccionario es órdenes de magnitud más rápido, pero **no es exhaustivo** —
-si la contraseña real no está en la lista, nunca se encuentra, sin importar
-que sí exista dentro de Σⁿ; la fuerza bruta es más lenta pero garantiza
-encontrarla si el hash pertenece al espacio explorado.
+Ninguna de las 5 instancias del equipo está en `diccionario.txt` (0/5). La
+fuerza bruta sí las encuentra las 5, tardando entre 393.7 ms y 243.2 s. El
+diccionario responde en menos de 1.5 ms siempre. Caso de control
+(`acceso123`, que sí está en la lista): se encuentra en 0.016 ms.
 
 ## Pendiente
 
