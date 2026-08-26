@@ -16,6 +16,8 @@ cd "$(dirname "$0")"
 BIN=./ada_p1_fb
 CSV=results/tiempos_fb.csv
 NOHASH="0000000000000000000000000000000000000000000000000000000000000000"
+TXT_DIR=results/instancias_txt
+mkdir -p "$TXT_DIR"
 
 echo "alfabeto,n,tipo_caso,candidatos_evaluados,tiempo_ms,encontrada" > "$CSV"
 
@@ -25,6 +27,7 @@ run_worst_case() {
     echo ">> peor caso: $alf n=$n"
     local out
     out=$($BIN search --alphabet "$alf" --length "$n" --hash "$NOHASH")
+    echo "$out" > "$TXT_DIR/${alf}_n${n}_peor_caso.txt"
     local cand=$(echo "$out" | grep candidatos_evaluados | cut -d= -f2)
     local t=$(echo "$out" | grep tiempo_ms | cut -d= -f2)
     local found=$(echo "$out" | grep encontrada | cut -d= -f2)
@@ -38,6 +41,7 @@ run_team_instance() {
     echo ">> instancia del equipo: $alf n=$n"
     local out
     out=$($BIN search --alphabet "$alf" --length "$n" --hash "$hash")
+    echo "$out" > "$TXT_DIR/${alf}_n${n}_instancia_equipo.txt"
     local cand=$(echo "$out" | grep candidatos_evaluados | cut -d= -f2)
     local t=$(echo "$out" | grep tiempo_ms | cut -d= -f2)
     local found=$(echo "$out" | grep encontrada | cut -d= -f2)
@@ -85,6 +89,13 @@ run_comparison() {
     dict_cand=$(echo "$dict_out" | grep candidatos_evaluados | cut -d= -f2)
     dict_t=$(echo "$dict_out" | grep tiempo_ms | cut -d= -f2)
     dict_found=$(echo "$dict_out" | grep encontrada | cut -d= -f2)
+    {
+        echo "=== fuerza bruta ==="
+        echo "$fb_out"
+        echo
+        echo "=== diccionario ==="
+        echo "$dict_out"
+    } > "$TXT_DIR/comparacion_${alf}_n${n}.txt"
     echo "$alf,$n,$fb_cand,$fb_t,$fb_found,$dict_cand,$dict_t,$dict_found" >> "$DICT_CSV"
 }
 
@@ -104,6 +115,8 @@ control_out=$($BIN dict --hash "$CONTROL_HASH")
 control_cand=$(echo "$control_out" | grep candidatos_evaluados | cut -d= -f2)
 control_t=$(echo "$control_out" | grep tiempo_ms | cut -d= -f2)
 control_found=$(echo "$control_out" | grep encontrada | cut -d= -f2)
+echo "=== diccionario (control: acceso123) ===" > "$TXT_DIR/comparacion_control_n9.txt"
+echo "$control_out" >> "$TXT_DIR/comparacion_control_n9.txt"
 echo "control,9,n/a,n/a,n/a,$control_cand,$control_t,$control_found" >> "$DICT_CSV"
 
 echo "Listo. Comparación en $DICT_CSV"

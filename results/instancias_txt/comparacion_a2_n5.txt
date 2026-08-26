@@ -1,0 +1,12 @@
+=== fuerza bruta ===
+alfabeto=a2 |sigma|=36 n=5
+encontrada=1
+password=bgdaf
+candidatos_evaluados=1963446
+tiempo_ms=2428.82
+
+=== diccionario ===
+diccionario=resources/diccionario.txt
+encontrada=0
+candidatos_evaluados=500
+tiempo_ms=0.648833

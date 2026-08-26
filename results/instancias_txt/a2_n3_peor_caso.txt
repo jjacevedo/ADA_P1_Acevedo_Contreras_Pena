@@ -1,0 +1,4 @@
+alfabeto=a2 |sigma|=36 n=3
+encontrada=0
+candidatos_evaluados=46656
+tiempo_ms=58.1528

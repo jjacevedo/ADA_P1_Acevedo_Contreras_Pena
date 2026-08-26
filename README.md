@@ -4,21 +4,46 @@ Avance del Módulo FB de la Práctica 1 (Análisis y Diseño de Algoritmos).
 Este README cubre solo este módulo; se combina con el del compañero de BT
 cuando se junten los dos módulos en el repositorio final.
 
-## Compilar
+## Guía rápida (Mac/Linux)
 
-```bash
-g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
-```
+1. Clonar el repo y entrar a la carpeta:
+   ```bash
+   git clone https://github.com/jjacevedo/ADA_P1_Acevedo_Contreras_Pena.git
+   cd ADA_P1_Acevedo_Contreras_Pena
+   ```
+2. Compilar:
+   ```bash
+   g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
+   ```
+3. Validar que compiló bien:
+   ```bash
+   ./ada_p1_fb verify-ref
+   ```
+4. Ejecutar cualquier comando:
+   ```bash
+   ./ada_p1_fb hash abc12                                  # calcula un hash SHA-256
+   ./ada_p1_fb search --alphabet a1 --length 4 --hash <hex> # fuerza bruta pura
+   ./ada_p1_fb dict --hash <hex>                            # ataque por diccionario
+   ./ada_p1_fb gen-instances --apellidos "acevedo,contreras,peña"  # instancias del equipo
+   ```
+5. Reproducir los experimentos:
+   ```bash
+   ./run_experiments.sh
+   ```
 
-## Ejecutar
+## Guía rápida (Windows)
 
-```bash
-./ada_p1_fb verify-ref                                  # valida contra la instancia de referencia del curso
-./ada_p1_fb hash abc12                                  # calcula un hash SHA-256
-./ada_p1_fb search --alphabet a1 --length 4 --hash <hex> # fuerza bruta pura
-./ada_p1_fb dict --hash <hex>                            # ataque por diccionario
-./ada_p1_fb gen-instances --apellidos "acevedo,contreras,peña"  # instancias del equipo
-```
+Igual que arriba, pero antes hace falta un entorno con `g++` y bash. Lo más simple:
+
+1. Instalar Git Bash (viene con [Git for Windows](https://git-scm.com/download/win)) o usar WSL.
+2. Instalar un compilador C++17: MSYS2/MinGW-w64, o el `g++` que trae WSL (Ubuntu: `sudo apt install g++`).
+3. Abrir Git Bash (o la terminal de WSL) y seguir los mismos pasos de la guía de Mac/Linux — los comandos son idénticos ahí adentro.
+
+Sin Git Bash/WSL (cmd o PowerShell nativos):
+
+- El binario se llama `ada_p1_fb.exe`, no `ada_p1_fb`.
+- En PowerShell se invoca `.\ada_p1_fb.exe`, no `./ada_p1_fb`.
+- `run_experiments.sh` no corre (es bash) — hay que correr los comandos de `./ada_p1_fb ...` a mano, o usar Git Bash/WSL para ese script.
 
 ## Estructura (dentro de `src/`)
 
@@ -44,11 +69,13 @@ Semilla = 2124. Generadas con `gen-instances`, orden A1, A2, A1, A2, A1:
 
 ## Experimentación
 
-`run_experiments.sh` corre el peor caso y las instancias reales para A1/A2
+`run_experiments.sh` corre el peor caso (6 de las 7 configuraciones — a1
+n=6 se corre aparte, ver más abajo) y las instancias reales para A1/A2
 n=3,4,5, más la comparación contra el diccionario, y escribe:
 
 - `results/tiempos_fb.csv`
 - `results/comparacion_fb_diccionario.csv`
+- `results/instancias_txt/` — un .txt por corrida con la misma salida que imprime el CLI
 
 Las gráficas se regeneran con:
 

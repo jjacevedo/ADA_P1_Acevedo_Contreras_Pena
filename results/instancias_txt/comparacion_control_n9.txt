@@ -1,0 +1,6 @@
+=== diccionario (control: acceso123) ===
+diccionario=resources/diccionario.txt
+encontrada=1
+password=acceso123
+candidatos_evaluados=7
+tiempo_ms=0.014417

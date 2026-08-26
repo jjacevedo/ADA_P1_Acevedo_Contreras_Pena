@@ -1,0 +1,12 @@
+=== fuerza bruta ===
+alfabeto=a1 |sigma|=26 n=4
+encontrada=1
+password=slaz
+candidatos_evaluados=323830
+tiempo_ms=387.74
+
+=== diccionario ===
+diccionario=resources/diccionario.txt
+encontrada=0
+candidatos_evaluados=500
+tiempo_ms=0.651208
