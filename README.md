@@ -119,3 +119,34 @@ diccionario responde en menos de 1.5 ms siempre. Caso de control
 
 - Redactar el informe (secciones 3–15 según la estructura del PDF).
 - Tests automatizados en `tests/` (a cargo del compañero encargado de pruebas).
+
+
+
+## Backtracking (BT)
+
+### Descripción
+
+El módulo de Backtracking construye las contraseñas de forma incremental,
+explorando un árbol de bssqueda y descartando ramas que no pueden producir
+una solución valida.
+
+La implementación se encuentra en:
+
+`src/bt_backtracking.hpp`
+
+### Política del equipo
+
+La política utilizada por el equipo es:
+
+- `minLower = 2`
+- `minUpper = 1`
+- `minDigit = 1`
+- `minSymbol = 1`
+- No se permiten caracteres consecutivos iguales.
+
+La semilla utilizada es `2124`.
+
+### Compilación
+
+```bash
+g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
