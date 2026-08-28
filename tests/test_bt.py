@@ -35,8 +35,11 @@ def main():
 
     run(compile_cmd)
 
-    # 1. La politica sin restricciones debe tener exactamente 67^3
-    #    soluciones y no debe podar.
+    # 1. La politica sin restricciones de composicion (policy=none) NO
+    #    tiene minimos por tipo de caracter, pero la prohibicion de
+    #    caracteres consecutivos iguales SI aplica (Seccion 9.2 del PDF:
+    #    "aplica a todas las instancias"). Por eso si debe podar, y el
+    #    numero de soluciones es 67 * 66^(n-1), no 67^n.
     out = run([
         exe, "bt", "--length", "3",
         "--policy", "none", "--pruning", "on"
@@ -44,8 +47,8 @@ def main():
     v = values(out.stdout)
 
     assert v["sigma"] == "67"
-    assert v["nodos_podados"] == "0"
-    assert int(v["soluciones"]) == 67 ** 3
+    assert int(v["nodos_podados"]) > 0
+    assert int(v["soluciones"]) == 67 * 66 * 66
 
     # 2. Con la politica relaxed se comprueba que poda y no poda
     #    encuentran exactamente las mismas soluciones.

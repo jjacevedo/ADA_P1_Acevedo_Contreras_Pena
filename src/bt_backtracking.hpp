@@ -123,7 +123,10 @@ inline void countTypes(const std::string& current,
         }
     }
 }
-// Funcion de factibilidad
+// Funcion de factibilidad.
+// Version original: recibe el prefijo completo y lo recuenta desde cero
+// (O(n) por llamada). Se conserva porque tests/otros modulos podrian
+// depender de ella, pero backtrack() ya NO la usa (ver feasibleCounts).
 
 
 inline bool feasible(const std::string& current,
@@ -143,18 +146,49 @@ inline bool feasible(const std::string& current,
     return totalNeeded <= remaining;
 }
 
+// Version incremental de la funcion de factibilidad: O(1) por llamada.
+// Recibe los conteos ya acumulados del prefijo (llevados por backtrack()
+// via push/pop) en vez de recorrer la cadena completa en cada nodo.
+
+
+inline bool feasibleCounts(int lower,
+                           int upper,
+                           int digit,
+                           int symbol,
+                           int remaining,
+                           const Policy& policy) {
+    int lowerNeeded = std::max(0, policy.minLower - lower);
+    int upperNeeded = std::max(0, policy.minUpper - upper);
+    int digitNeeded = std::max(0, policy.minDigit - digit);
+    int symbolNeeded = std::max(0, policy.minSymbol - symbol);
+
+    int totalNeeded =
+        lowerNeeded + upperNeeded + digitNeeded + symbolNeeded;
+
+    return totalNeeded <= remaining;
+}
+
 // Backtracking con poda
 
 
 inline void backtrack(std::string& current,
                       int length,
                       const Policy& policy,
-                      Result& result) {
+                      Result& result,
+                      int lower,
+                      int upper,
+                      int digit,
+                      int symbol) {
     ++result.nodesVisited;
 
-    // Caso base
+    // Caso base: los conteos ya se llevaron de forma incremental,
+    // asi que basta compararlos contra los minimos de la politica
+    // (el orden ya se garantizo durante la construccion via Poda 1).
     if (static_cast<int>(current.size()) == length) {
-        if (isValidSolution(current, policy)) {
+        if (lower >= policy.minLower &&
+            upper >= policy.minUpper &&
+            digit >= policy.minDigit &&
+            symbol >= policy.minSymbol) {
             ++result.solutions;
         }
         return;
@@ -172,16 +206,24 @@ inline void backtrack(std::string& current,
             continue;
         }
 
-        current.push_back(c);
+        // Conteo incremental: solo se actualiza el tipo del caracter
+        // que se esta agregando, en vez de recontar todo el prefijo.
+        int newLower = lower + (isLower(c) ? 1 : 0);
+        int newUpper = upper + (isUpper(c) ? 1 : 0);
+        int newDigit = digit + (isDigit(c) ? 1 : 0);
+        int newSymbol = symbol + (isSymbol(c) ? 1 : 0);
 
-        // Poda 2
-        if (!feasible(current, remaining, policy)) {
+        // Poda 2 (O(1) en vez de O(n))
+        if (!feasibleCounts(newLower, newUpper, newDigit, newSymbol,
+                            remaining, policy)) {
             ++result.nodesPruned;
-            current.pop_back();
             continue;
         }
 
-        backtrack(current, length, policy, result);
+        current.push_back(c);
+
+        backtrack(current, length, policy, result,
+                 newLower, newUpper, newDigit, newSymbol);
 
         // Backtracking: deshacer la decision.
         current.pop_back();
@@ -202,8 +244,8 @@ inline Result solve(const Policy& policy, int length) {
 
     auto start = std::chrono::steady_clock::now();
 
-    if (feasible(current, length, policy)) {
-        backtrack(current, length, policy, result);
+    if (feasibleCounts(0, 0, 0, 0, length, policy)) {
+        backtrack(current, length, policy, result, 0, 0, 0, 0);
     } else {
         // Se visita la raiz y se poda porque la instancia es imposible.
         result.nodesVisited = 1;
