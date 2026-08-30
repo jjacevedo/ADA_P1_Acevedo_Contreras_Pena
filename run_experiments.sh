@@ -110,12 +110,12 @@ run_comparison a2 5 d6809ac7b6f13c1d90add5ef7fb3f2b8599b112809c50ed19251d9d68c14
 # No tiene comparación FB real (n=9 sobre A1 es intratable: 26^9), es solo
 # para mostrar que el diccionario sí encuentra lo que contiene.
 echo ">> comparación: control n=9 (solo diccionario)"
-CONTROL_HASH=$($BIN hash acceso123)
+CONTROL_HASH=$($BIN hash access123)
 control_out=$($BIN dict --hash "$CONTROL_HASH")
 control_cand=$(echo "$control_out" | grep candidatos_evaluados | cut -d= -f2)
 control_t=$(echo "$control_out" | grep tiempo_ms | cut -d= -f2)
 control_found=$(echo "$control_out" | grep encontrada | cut -d= -f2)
-echo "=== diccionario (control: acceso123) ===" > "$TXT_DIR/comparacion_control_n9.txt"
+echo "=== diccionario (control: access123) ===" > "$TXT_DIR/comparacion_control_n9.txt"
 echo "$control_out" >> "$TXT_DIR/comparacion_control_n9.txt"
 echo "control,9,n/a,n/a,n/a,$control_cand,$control_t,$control_found" >> "$DICT_CSV"
 

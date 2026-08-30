@@ -2,4 +2,4 @@ alfabeto=a2 |sigma|=36 n=5
 encontrada=1
 password=bgdaf
 candidatos_evaluados=1963446
-tiempo_ms=2414.62
+tiempo_ms=2413.19

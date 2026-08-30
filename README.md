@@ -96,24 +96,24 @@ ya están agregadas a mano en los CSV. Comandos para reproducirlo:
 
 | Alfabeto | n | Candidatos | Tiempo |
 |---|---|---|---|
-| A1 | 3 | 17,576 | 38.2 ms |
-| A1 | 4 | 456,976 | 556.8 ms |
-| A1 | 5 | 11,881,376 | ~14.8 s |
+| A1 | 3 | 17,576 | 35.1 ms |
+| A1 | 4 | 456,976 | 540.8 ms |
+| A1 | 5 | 11,881,376 | ~14.6 s |
 | A1 | 6 | 308,915,776 | **683.4 s (~11.4 min)** |
-| A2 | 3 | 46,656 | 56.8 ms |
-| A2 | 4 | 1,679,616 | ~2.1 s |
-| A2 | 5 | 60,466,176 | ~75.0 s |
+| A2 | 3 | 46,656 | 57.2 ms |
+| A2 | 4 | 1,679,616 | ~2.0 s |
+| A2 | 5 | 60,466,176 | ~74.3 s |
 
 Candidatos evaluados = exactamente |Σ|ⁿ en los 7 casos. Factor de
-crecimiento medido al subir n en 1: A1 entre ×14.6 y ×46.3 según el rango
+crecimiento medido al subir n en 1: A1 entre ×15.4 y ×46.7 según el rango
 (teórico ×26), A2 ≈ ×36 (teórico ×36).
 
 ### Resultados (fuerza bruta vs. diccionario)
 
 Ninguna de las 5 instancias del equipo está en `diccionario.txt` (0/5). La
-fuerza bruta sí las encuentra las 5, tardando entre 393.7 ms y 243.2 s. El
+fuerza bruta sí las encuentra las 5, tardando entre 390.5 ms y 243.2 s. El
 diccionario responde en menos de 1.5 ms siempre. Caso de control
-(`acceso123`, que sí está en la lista): se encuentra en 0.016 ms.
+(`access123`, que sí está en la lista): se encuentra en 484 candidatos.
 
 ## Pendiente
 

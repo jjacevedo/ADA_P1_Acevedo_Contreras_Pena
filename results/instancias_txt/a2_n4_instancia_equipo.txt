@@ -2,4 +2,4 @@ alfabeto=a2 |sigma|=36 n=4
 encontrada=1
 password=y70p
 candidatos_evaluados=1163464
-tiempo_ms=1401.25
+tiempo_ms=1409.4

@@ -1,6 +1,6 @@
-=== diccionario (control: acceso123) ===
+=== diccionario (control: access123) ===
 diccionario=resources/diccionario.txt
 encontrada=1
-password=acceso123
-candidatos_evaluados=7
-tiempo_ms=0.014417
+password=access123
+candidatos_evaluados=484
+tiempo_ms=0.6355

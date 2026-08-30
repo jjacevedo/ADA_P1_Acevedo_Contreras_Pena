@@ -1,0 +1,5 @@
+alfabeto=a1 |sigma|=26 n=6
+encontrada=1
+password=ixmbgr
+candidatos_evaluados=105773218
+tiempo_ms=243174

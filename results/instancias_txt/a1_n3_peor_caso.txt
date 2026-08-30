@@ -1,4 +1,4 @@
 alfabeto=a1 |sigma|=26 n=3
 encontrada=0
 candidatos_evaluados=17576
-tiempo_ms=33.7609
+tiempo_ms=35.0959

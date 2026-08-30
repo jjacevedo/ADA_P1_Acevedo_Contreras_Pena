@@ -2,4 +2,4 @@ alfabeto=a1 |sigma|=26 n=4
 encontrada=1
 password=slaz
 candidatos_evaluados=323830
-tiempo_ms=386.493
+tiempo_ms=390.696

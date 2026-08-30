@@ -3,10 +3,10 @@ alfabeto=a2 |sigma|=36 n=4
 encontrada=1
 password=y70p
 candidatos_evaluados=1163464
-tiempo_ms=1420.13
+tiempo_ms=1417.33
 
 === diccionario ===
 diccionario=resources/diccionario.txt
 encontrada=0
 candidatos_evaluados=500
-tiempo_ms=0.66825
+tiempo_ms=0.699166

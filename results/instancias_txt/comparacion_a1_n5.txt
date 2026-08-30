@@ -3,10 +3,10 @@ alfabeto=a1 |sigma|=26 n=5
 encontrada=1
 password=ixuxs
 candidatos_evaluados=4074193
-tiempo_ms=5065.52
+tiempo_ms=5039.72
 
 === diccionario ===
 diccionario=resources/diccionario.txt
 encontrada=0
 candidatos_evaluados=500
-tiempo_ms=0.692959
+tiempo_ms=0.666458
