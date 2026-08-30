@@ -570,26 +570,31 @@ int main(int argc, char** argv) {
     std::string cmd =
         argv[1];
 
-    if (cmd == "hash")
-        return cmd_hash(argc, argv);
+    try {
+        if (cmd == "hash")
+            return cmd_hash(argc, argv);
 
-    if (cmd == "verify-ref")
-        return cmd_verify_ref();
+        if (cmd == "verify-ref")
+            return cmd_verify_ref();
 
-    if (cmd == "search")
-        return cmd_search(argc, argv);
+        if (cmd == "search")
+            return cmd_search(argc, argv);
 
-    if (cmd == "dict")
-        return cmd_dict(argc, argv);
+        if (cmd == "dict")
+            return cmd_dict(argc, argv);
 
-    if (cmd == "gen-instances")
-        return cmd_gen_instances(argc, argv);
+        if (cmd == "gen-instances")
+            return cmd_gen_instances(argc, argv);
 
-    if (cmd == "bt")
-        return cmd_bt(argc, argv);
+        if (cmd == "bt")
+            return cmd_bt(argc, argv);
 
-    if (cmd == "bt-compare")
-        return cmd_bt_compare(argc, argv);
+        if (cmd == "bt-compare")
+            return cmd_bt_compare(argc, argv);
+    } catch (const std::exception& e) {
+        std::cerr << "[ERROR] " << e.what() << "\n";
+        return 1;
+    }
 
     print_usage();
     return 1;
