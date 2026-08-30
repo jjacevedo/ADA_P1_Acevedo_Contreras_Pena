@@ -119,3 +119,54 @@ diccionario responde en menos de 1.5 ms siempre. Caso de control
 
 - Redactar el informe (secciones 3–15 según la estructura del PDF).
 - Tests automatizados en `tests/` (a cargo del compañero encargado de pruebas).
+
+
+
+## Backtracking (BT)
+
+### Descripción
+
+El módulo de Backtracking construye las contraseñas de forma incremental, explorando un árbol de búsqueda y descartando ramas que no pueden producir una solución válida.
+
+La implementación se encuentra en:
+
+`src/bt_backtracking.hpp`
+
+### Política del equipo
+
+La política utilizada por el equipo es:
+
+- `minLower = 2`
+- `minUpper = 1`
+- `minDigit = 1`
+- `minSymbol = 1`
+- No se permiten caracteres consecutivos iguales.
+
+La semilla utilizada es `2124`.
+
+### Alfabeto
+
+El algoritmo utiliza un alfabeto de 67 caracteres:
+
+- 26 letras minúsculas.
+- 26 letras mayúsculas.
+- 10 dígitos.
+- 5 símbolos: `! @ # $ %`.
+
+### Compilación
+
+Desde la carpeta principal del proyecto:
+
+cmd
+g++ -std=c++17 -O2 -Wall -o ada_p1_fb src/main.cpp
+
+#Ejecución de Backtracking
+
+Para ejecutar Backtracking con la política del equipo:
+
+.\ada_p1_fb.exe bt --length 5 --policy team 
+
+También se pueden probar otras longitudes, por ejemplo:
+
+.\ada_p1_fb.exe bt --length 3 --policy team
+
