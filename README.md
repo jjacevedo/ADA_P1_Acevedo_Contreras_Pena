@@ -64,6 +64,27 @@ bt
 bt-compare
 ```
 
+### 3.1 Mac / Linux / WSL
+
+Todos los ejemplos de este README están en sintaxis PowerShell
+(`.\ada_p1_fb.exe comando`). En Mac, Linux o WSL es lo mismo pero así:
+
+```bash
+./ada_p1_fb comando [opciones]
+```
+
+Es decir: sin `.exe`, y con `./` en vez de `.\`. Ejemplo:
+
+```bash
+./ada_p1_fb hash abc12
+./ada_p1_fb verify-ref
+./ada_p1_fb search --alphabet a1 --length 4 --hash <hex>
+./ada_p1_fb dict --hash <hex>
+./ada_p1_fb gen-instances --apellidos "acevedo,contreras,pena"
+```
+
+Los tests se corren igual: `python3 tests/test_fb.py` (no `python`).
+
 ---
 
 # 4. Módulo FB — Fuerza Bruta
